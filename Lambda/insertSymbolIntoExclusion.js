@@ -5,7 +5,6 @@ const pg = require('pg');
 exports.handler = (event, context, callback) => {
 
 // Get Symbol Input From Event
-    //const symbol = event.body.symbol.toString().toUpperCase();
     const body = JSON.parse(event.body);
 
 // For parametrized query
@@ -26,8 +25,8 @@ exports.handler = (event, context, callback) => {
         host: 'marketanalysisdb.cycqbegtfmzx.us-east-1.rds.amazonaws.com',
         database: 'ma',
         port: 5432,
-        user: 'nkinter',
-        password: 'vane3123',
+        user: process.env.PG_USERNAME,
+        password: process.env.PG_PASSWORD,
     });
 
     client.connect();

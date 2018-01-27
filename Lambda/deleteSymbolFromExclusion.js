@@ -5,16 +5,16 @@ const pg = require('pg');
 exports.handler = (event, context, callback) => {
 
 // Get Symbol Input From Event
-    const symbol = event["queryStringParameters"]['symbol'].toString().toUpperCase();
+    const body = JSON.parse(event.body);
 
 // For parametrized query
-    const values = [symbol];
+    const values = [body.symbol];
 
-    if (symbol === undefined) {
+    if (body.symbol === undefined) {
         callback(null, {
                 "statusCode": 400,
                 'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                "body": JSON.stringify({Error: "Error. No symbol specified"})
+                "body": JSON.stringify({Error: "Error. No symbol specified."})
             }
         );
     }
@@ -25,8 +25,8 @@ exports.handler = (event, context, callback) => {
         host: 'marketanalysisdb.cycqbegtfmzx.us-east-1.rds.amazonaws.com',
         database: 'ma',
         port: 5432,
-        user: 'nkinter',
-        password: 'vane3123',
+        user: process.env.PG_USERNAME,
+        password: process.env.PG_PASSWORD,
     });
 
     client.connect();
@@ -46,7 +46,7 @@ exports.handler = (event, context, callback) => {
             callback(null, {
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-                'body': JSON.stringify({ Success: "Deleted symbol " + symbol + " from exclusion list."})
+                'body': JSON.stringify({ Success: "Deleted symbol " + body.symbol + " from exclusion list."})
             });
         }
     });

@@ -10,8 +10,8 @@ exports.handler = (event, context, callback) => {
         host: 'marketanalysisdb.cycqbegtfmzx.us-east-1.rds.amazonaws.com',
         database: 'ma',
         port: 5432,
-        user: 'nkinter',
-        password: 'vane3123',
+        user: process.env.PG_USERNAME,
+        password: process.env.PG_PASSWORD,
     });
 
     client.connect();
