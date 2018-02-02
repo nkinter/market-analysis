@@ -81,7 +81,7 @@ exports.handler = (event, context, callback) => {
         "  FROM (\n" +
         "    select\n" +
         "    s.symbol\n" +
-        "    ,s.open as sale_price\n" +
+        "    ,s.current_price as sale_price\n" +
         "    ,s.metric_val as roic\n" +
         "    ,coalesce(1/(s.pe_ratio/100),0) as earnings_yield\n" +
         "    ,stddev(s.metric_val) over (partition by 1) as std_dev_roic\n" +
@@ -93,7 +93,7 @@ exports.handler = (event, context, callback) => {
         "    ,((s.metric_val-avg(s.metric_val) over (partition by 1)) / stddev(s.metric_val) over (partition by 1) +\n" +
         "    (coalesce(1/(s.pe_ratio/100),0)-avg(coalesce(1/(s.pe_ratio/100),0)) over (partition by 1)) / stddev(coalesce(1/(s.pe_ratio/100),0)) over (partition by 1)) * 10 + 50 as value_calc\n" +
         "    from prod.value_fund_base s\n" +
-        "    where s.open >= 3\n" +
+        "    where s.current_price >= 3\n" +
         "    and coalesce(1/(s.pe_ratio/100),0) > 0\n" +
         "    and s.symbol not in (select symbol from prod.stock_exclusion_list)\n" +
         "    and (s.market_cap between $3 and $4 OR \n" +
