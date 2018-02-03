@@ -35,7 +35,7 @@ exports.handler = (event, context, callback) => {
         if (!found){
             callback(null, {
                 "statusCode": 400,
-                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': true},
                 "body": JSON.stringify({ Error: "Error. Incorrect Market Cap Specified"})
             });
         }
@@ -121,7 +121,7 @@ exports.handler = (event, context, callback) => {
             console.log(err.stack);
             callback(null, {
                     "statusCode": 400,
-                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                    'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': true},
                     "body": JSON.stringify({ Error: "Error returned during query execution."})
                 }
             );
@@ -129,7 +129,7 @@ exports.handler = (event, context, callback) => {
             client.end();
             callback(null, {
                 'statusCode': 200,
-                'headers': { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+                'headers': { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': true},
                 'body': JSON.stringify(res.rows)
             });
         }
